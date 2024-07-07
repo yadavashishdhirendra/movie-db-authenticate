@@ -19,7 +19,7 @@ const Home = () => {
                         <div className="watch-list-container">
                             <h1>Welcome to, <span>Tiny Moviez</span></h1>
                             <p>Browse movies, add them to watchlists and share them with friends.</p>
-                            <p>Just click the <IoBookmark color='#E76F51' /> to add a movie, the poster to see more details</p>
+                            <p>Just click the <IoBookmark color='#E76F51' /> to add a movie, the poster to see more details marked the video as watched.</p>
                         </div>
                     </div>
                 </div>
