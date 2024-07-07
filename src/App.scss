@@ -1,5 +1,6 @@
 @import 'mixin';
 @import './Styles/Login.scss';
+@import './Styles/Home.scss';
 
 * {
   padding: 0;
@@ -12,6 +13,7 @@
 body,
 html {
   overflow-x: hidden;
+  background-color: #16181E;
 }
 
 

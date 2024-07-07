@@ -14,6 +14,10 @@ const Signup = () => {
 
     const handleSignup = (e) => {
         e.preventDefault();
+        if (!email) {
+            toast.error("Email Id is required.")
+            return
+        }
         const storedUsers = JSON.parse(secureLocalStorage.getItem('usersTinyMoviez')) || [];
         if (storedUsers.find(user => user.email === email)) {
             toast.error('Email already exists');
