@@ -1,0 +1,28 @@
+@import 'mixin';
+@import './Styles/Login.scss';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  letter-spacing: 1px;
+  scrollbar-width: thin;
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
+
+.loading-container{
+  @include flex();
+}
+
+.Toastify__toast-body > div:last-child {
+  word-break: break-word;
+  flex: 1 1;
+  font-family: "Krona One" !important;
+  font-size: 12px !important;
+  color: #1c1c1c !important;
+}
