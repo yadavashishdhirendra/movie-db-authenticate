@@ -15,7 +15,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
-  console.log(user);
 
   //   Movie List State
   const { movies, loading } = useSelector((state) => state.movie);
@@ -40,8 +39,6 @@ const Home = () => {
       setMovies(movies?.Search);
     }
   }, [movies?.Search, movies?.Response]);
-
-  console.log("MOVIES: ", Movies);
 
   return (
     <Fragment>
@@ -99,6 +96,7 @@ const Home = () => {
                         title={i.Title}
                         year={i.Year}
                         imdbId={i.imdbID}
+                        user={user}
                       />
                     ))
                   : null}
