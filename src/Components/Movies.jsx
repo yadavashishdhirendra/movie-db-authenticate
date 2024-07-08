@@ -1,11 +1,12 @@
 import React from "react";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { IoBookmark } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
-const Movies = ({ poster, title, year }) => {
+const Movies = ({ poster, title, year, imdbId }) => {
   let isBookmarked = false;
   return (
-    <div>
+    <Link to={`/movie-details/${imdbId}`}>
       <img src={poster} alt="" />
       <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
       <div className="watchlist-content">
@@ -18,7 +19,7 @@ const Movies = ({ poster, title, year }) => {
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

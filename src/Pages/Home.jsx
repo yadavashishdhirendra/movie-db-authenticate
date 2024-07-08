@@ -22,16 +22,19 @@ const Home = () => {
 
   const [Movies, setMovies] = useState([]);
 
+  //   Logout Function
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
     navigate("/login");
     toast.success("Logout Successfully");
   };
 
+  //   Initially Load Movie
   useEffect(() => {
     dispatch(GetAllMovieActions("movie", 1));
   }, [dispatch]);
 
+  //   If All Ok Push Data
   useEffect(() => {
     if (movies?.Response === "True") {
       setMovies(movies?.Search);
@@ -45,16 +48,22 @@ const Home = () => {
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
+            {/* First Child*/}
+            {/* SideBar  */}
             <SideBar />
+            {/* SideBar */}
           </div>
           <div>
+            {/* Header User Info */}
             <div className="header-info">
               <h3>Welcome, {user.name}</h3>
               <Button onClick={() => handleLogout()}>
                 <CiLogout size={28} />
               </Button>
             </div>
+            {/* Header User Info */}
 
+            {/* Static Container */}
             <div className="watch-list-container">
               <h1>
                 Welcome to, <span>Tiny Moviez</span>
@@ -68,6 +77,14 @@ const Home = () => {
                 the poster to see more details marked the video as watched.
               </p>
             </div>
+            {/* Static Container */}
+
+            {/* Input */}
+            <div className="input-container">
+              <input type="text" name="" id="" placeholder="Enter Movie Name" />
+              <Button>Search</Button>
+            </div>
+            {/* Input */}
 
             {/* Movie Data */}
             {loading ? (
@@ -81,6 +98,7 @@ const Home = () => {
                         poster={i.Poster}
                         title={i.Title}
                         year={i.Year}
+                        imdbId={i.imdbID}
                       />
                     ))
                   : null}

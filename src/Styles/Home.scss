@@ -49,6 +49,49 @@
       @include for_breakpoint(mobile) {
         padding: 40px 15px;
       }
+      .input-container {
+        @include flex($gap: 0px, $justify: flex-end);
+        @include for_breakpoint(mobile) {
+          @include flex($dir: column);
+        }
+        margin-top: 20px;
+        > input {
+          width: 40%;
+          padding: 0px 10px;
+          font-family: "Montserrat";
+          height: 48px;
+          outline: none;
+          border: none;
+          border-radius: 2px 0px 0px 2px;
+          -webkit-border-radius: 2px 0px 0px 2px;
+          -moz-border-radius: 2px 0px 0px 2px;
+          -ms-border-radius: 2px 0px 0px 2px;
+          -o-border-radius: 2px 0px 0px 2px;
+          @include for_breakpoint(mediumTablet) {
+            width: 60%;
+          }
+          @include for_breakpoint(mobile) {
+            width: 100%;
+          }
+        }
+        > button {
+          background-color: #e76f51;
+          height: 48px;
+          border-radius: 0px !important;
+          //   margin-top: -2px;
+          color: white;
+          font-family: "Krona One";
+          font-size: 12px;
+          width: 200px;
+          -webkit-border-radius: 0px !important;
+          -moz-border-radius: 0px !important;
+          -ms-border-radius: 0px !important;
+          -o-border-radius: 0px !important;
+          @include for_breakpoint(mobile) {
+            margin-top: 10px;
+          }
+        }
+      }
       > .header-info {
         @include flex($justify: space-between);
         margin-bottom: 5px;
@@ -76,7 +119,8 @@
         @include for_breakpoint(mobile) {
           @include grid($coloumns: 1fr 1fr, $gap: 20px);
         }
-        > div {
+        > a {
+          text-decoration: none;
           @include for_breakpoint(mediumTablet) {
             margin-bottom: 20px;
           }
