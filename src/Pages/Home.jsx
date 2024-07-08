@@ -16,51 +16,60 @@ const Home = () => {
   const navigate = useNavigate();
   let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
 
-  //   Movie List State
   const { movies, loading } = useSelector((state) => state.movie);
-
   const [Movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1); // State to track the current page
 
-  //   Logout Function
+  const [stopLoader, setStopLoader] = useState(true);
+  const [scrollLoading, setScrollLoading] = useState(false);
+
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
     navigate("/login");
     toast.success("Logout Successfully");
   };
 
-  //   Initially Load Movie
   useEffect(() => {
-    dispatch(GetAllMovieActions("movie", 1));
-  }, [dispatch]);
+    dispatch(GetAllMovieActions("movie", page));
+  }, [dispatch, page]);
 
-  //   If All Ok Push Data
   useEffect(() => {
     if (movies?.Response === "True") {
-      setMovies(movies?.Search);
+      setMovies((prevMovies) => [...prevMovies, ...movies?.Search]);
     }
   }, [movies?.Search, movies?.Response]);
+
+  // Infinite Scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setStopLoader(false);
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        setScrollLoading(true);
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <Fragment>
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            {/* First Child*/}
-            {/* SideBar  */}
             <SideBar />
-            {/* SideBar */}
           </div>
           <div>
-            {/* Header User Info */}
             <div className="header-info">
               <h3>Welcome, {user.name}</h3>
               <Button onClick={() => handleLogout()}>
                 <CiLogout size={28} />
               </Button>
             </div>
-            {/* Header User Info */}
-
-            {/* Static Container */}
             <div className="watch-list-container">
               <h1>
                 Welcome to, <span>Tiny Moviez</span>
@@ -74,17 +83,11 @@ const Home = () => {
                 the poster to see more details marked the video as watched.
               </p>
             </div>
-            {/* Static Container */}
-
-            {/* Input */}
             <div className="input-container">
               <input type="text" name="" id="" placeholder="Enter Movie Name" />
               <Button>Search</Button>
             </div>
-            {/* Input */}
-
-            {/* Movie Data */}
-            {loading ? (
+            {loading && stopLoader ? (
               <Loading mt={true} color={"white"} size={48} />
             ) : (
               <div className="movie-list-grid-row">
@@ -102,7 +105,7 @@ const Home = () => {
                   : null}
               </div>
             )}
-            {/* Movie Data */}
+            {scrollLoading && <Loading mt={true} color={"white"} size={48} />}
           </div>
         </div>
       </div>

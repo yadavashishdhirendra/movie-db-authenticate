@@ -46,7 +46,7 @@ const Movies = ({ poster, title, year, imdbId, user }) => {
 
   return (
     <Link>
-      <img src={poster} alt="" />
+      <img src={poster} alt={title} loading="lazy" />
       <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
       <div className="watchlist-content">
         <p>{year}</p>
