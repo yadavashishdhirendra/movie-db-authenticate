@@ -16,16 +16,20 @@ const Home = () => {
   const navigate = useNavigate();
   let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
 
+  //   State to get all movies
   const { movies, loading } = useSelector((state) => state.movie);
+
   const [Movies, setMovies] = useState([]);
+
   const [page, setPage] = useState(1);
-  const [keyword, setKeyword] = useState("dragon"); // Initialize with default keyword
+  const [keyword, setKeyword] = useState("dragon");
+
   const [stopLoader, setStopLoader] = useState(true);
   const [scrollLoading, setScrollLoading] = useState(false);
 
   const [isError, setIsError] = useState(false);
 
-  //   const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
@@ -35,9 +39,11 @@ const Home = () => {
 
   useEffect(() => {
     if (!isError) {
-      dispatch(GetAllMovieActions(keyword, page));
+      if (!isTyping) {
+        dispatch(GetAllMovieActions(keyword, page));
+      }
     }
-  }, [dispatch, page, keyword, isError]);
+  }, [dispatch, page, keyword, isError, isTyping]);
 
   useEffect(() => {
     if (movies?.Response === "True") {
@@ -70,6 +76,7 @@ const Home = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setIsTyping(false);
     setIsError(false);
     setStopLoader(true);
     setMovies([]);
@@ -79,7 +86,7 @@ const Home = () => {
 
   const handleKeyword = (val) => {
     setIsError(false);
-    // setIsTyping(true);
+    setIsTyping(true);
     setPage(1);
     setKeyword(val);
   };
