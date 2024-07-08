@@ -18,12 +18,14 @@ const Home = () => {
 
   const { movies, loading } = useSelector((state) => state.movie);
   const [Movies, setMovies] = useState([]);
-  const [page, setPage] = useState(1); // State to track the current page
-
+  const [page, setPage] = useState(1);
+  const [keyword, setKeyword] = useState("dragon"); // Initialize with default keyword
   const [stopLoader, setStopLoader] = useState(true);
   const [scrollLoading, setScrollLoading] = useState(false);
 
-  const [watchListCount, setWatchListCount] = useState(null);
+  const [isError, setIsError] = useState(false);
+
+  //   const [isTyping, setIsTyping] = useState(false);
 
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
@@ -32,22 +34,31 @@ const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(GetAllMovieActions("movie", page));
-  }, [dispatch, page]);
+    if (!isError) {
+      dispatch(GetAllMovieActions(keyword, page));
+    }
+  }, [dispatch, page, keyword, isError]);
 
   useEffect(() => {
     if (movies?.Response === "True") {
-      setMovies((prevMovies) => [...prevMovies, ...movies?.Search]);
+      setMovies((prevMovies) =>
+        page === 1 ? movies?.Search : [...prevMovies, ...movies?.Search]
+      );
+      setScrollLoading(false);
     }
-  }, [movies?.Search, movies?.Response]);
+    if (movies?.Response === "False") {
+      toast.error(movies.Error);
+      setIsError(true);
+      setScrollLoading(false);
+    }
+  }, [movies?.Search, movies?.Response, page, movies?.Error]);
 
-  // Infinite Scroll
   useEffect(() => {
     const handleScroll = () => {
       setStopLoader(false);
       if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 10
       ) {
         setScrollLoading(true);
         setPage((prevPage) => prevPage + 1);
@@ -58,13 +69,26 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  console.log("WatchListCount: ", watchListCount);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setStopLoader(true);
+    setMovies([]);
+    setPage(1);
+    await dispatch(GetAllMovieActions(keyword, 1));
+  };
+
+  const handleKeyword = (val) => {
+    // setIsTyping(true);
+    setPage(1);
+    setKeyword(val);
+  };
+
   return (
     <Fragment>
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            <SideBar watchListCount={watchListCount} />
+            <SideBar />
           </div>
           <div>
             <div className="header-info">
@@ -86,15 +110,22 @@ const Home = () => {
                 the poster to see more details marked the video as watched.
               </p>
             </div>
-            <div className="input-container">
-              <input type="text" name="" id="" placeholder="Enter Movie Name" />
-              <Button>Search</Button>
-            </div>
+            <form onSubmit={handleSearch} className="input-container">
+              <input
+                type="text"
+                name="keyword"
+                id="keyword"
+                onChange={(e) => handleKeyword(e.target.value)}
+                value={keyword}
+                placeholder="Enter Movie Name"
+              />
+              <Button type="submit">Search</Button>
+            </form>
             {loading && stopLoader ? (
               <Loading mt={true} color={"white"} size={48} />
             ) : (
               <div className="movie-list-grid-row">
-                {Movies && Movies?.length > 0
+                {Movies && Movies.length > 0
                   ? Movies.map((i, index) => (
                       <Moviez
                         key={index}
@@ -103,7 +134,6 @@ const Home = () => {
                         year={i.Year}
                         imdbId={i.imdbID}
                         user={user}
-                        setWatchListCount={setWatchListCount}
                       />
                     ))
                   : null}

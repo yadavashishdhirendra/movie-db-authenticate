@@ -109,15 +109,12 @@
 
       .movie-list-grid-row {
         margin-top: 30px;
-        @include grid($coloumns: 1fr 1fr 1fr 1fr, $gap: 30px);
+        @include grid($coloumns: repeat(4, minmax(0, 1fr)), $gap: 30px);
         @include for_breakpoint(LargeTablet) {
-          @include grid($coloumns: 1fr 1fr 1fr);
+          @include grid($coloumns: repeat(3, minmax(0, 1fr)));
         }
         @include for_breakpoint(mediumTablet) {
-          @include grid($coloumns: 1fr 1fr, $gap: 40px);
-        }
-        @include for_breakpoint(mobile) {
-          @include grid($coloumns: 1fr 1fr, $gap: 20px);
+          @include grid($coloumns: repeat(2, minmax(0, 1fr)), $gap: 40px);
         }
         > a {
           text-decoration: none;

@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import Icon from "../Assets/Images/Logo.png";
+import secureLocalStorage from "react-secure-storage";
 
-const SidebarCommon = ({ watchListCount }) => {
+const SidebarCommon = () => {
+  let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
+
   const [isOpen] = useState(false);
   return (
     <Fragment>
@@ -23,7 +26,7 @@ const SidebarCommon = ({ watchListCount }) => {
             <MenuItem> Home </MenuItem>
             <MenuItem>
               {" "}
-              My Lists <div>{watchListCount}</div>
+              My Lists <div>{user?.bookmarks?.length || 0}</div>
             </MenuItem>
             {/* </SubMenu> */}
             {/* <MenuItem> Documentation </MenuItem>
