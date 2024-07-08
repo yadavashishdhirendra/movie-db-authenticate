@@ -4,62 +4,68 @@ import { Link } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { toast } from "react-toastify";
 
-const Movies = ({ poster, title, year, imdbId, user }) => {
-  const [isBookmarked, setIsBookmarked] = useState(false);
+const Movies = React.memo(
+  ({ poster, title, year, imdbId, user, setWatchListCount }) => {
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
-  useEffect(() => {
-    if (
-      user.bookmarks &&
-      user.bookmarks.some((bookmark) => bookmark.imdbId === imdbId)
-    ) {
-      setIsBookmarked(true);
-    }
-  }, [user.bookmarks, imdbId]);
+    useEffect(() => {
+      if (
+        user.bookmarks &&
+        user.bookmarks.some((bookmark) => bookmark.imdbId === imdbId)
+      ) {
+        setIsBookmarked(true);
+        setWatchListCount(user.bookmarks.length);
+      }
+    }, [user.bookmarks, imdbId, setWatchListCount]);
 
-  const handleSaved = (imdbId, name, poster, yr) => {
-    let updatedUser = { ...user };
+    const handleSaved = (imdbId, name, poster, yr) => {
+      let updatedUser = { ...user };
 
-    if (!updatedUser.bookmarks) {
-      updatedUser.bookmarks = [];
-    }
+      if (!updatedUser.bookmarks) {
+        updatedUser.bookmarks = [];
+      }
 
-    if (isBookmarked) {
-      updatedUser.bookmarks = updatedUser.bookmarks.filter(
-        (bookmark) => bookmark.imdbId !== imdbId
+      if (isBookmarked) {
+        updatedUser.bookmarks = updatedUser.bookmarks.filter(
+          (bookmark) => bookmark.imdbId !== imdbId
+        );
+        setIsBookmarked(false);
+        toast.success("Removed From WatchList");
+      } else {
+        updatedUser.bookmarks.push({
+          imdbId: imdbId,
+          title: name,
+          img: poster,
+          year: yr,
+        });
+        setIsBookmarked(true);
+        toast.success("Added In WatchList");
+      }
+      secureLocalStorage.setItem(
+        "user_watch_list",
+        JSON.stringify(updatedUser)
       );
-      setIsBookmarked(false);
-      toast.success("Removed From WatchList");
-    } else {
-      updatedUser.bookmarks.push({
-        imdbId: imdbId,
-        title: name,
-        img: poster,
-        year: yr,
-      });
-      setIsBookmarked(true);
-      toast.success("Added In WatchList");
-    }
-    secureLocalStorage.setItem("user_watch_list", JSON.stringify(updatedUser));
-  };
+    };
 
-  console.log("USER: ", user);
+    console.log("USER: ", user);
 
-  return (
-    <Link>
-      <img src={poster} alt={title} loading="lazy" />
-      <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
-      <div className="watchlist-content">
-        <p>{year}</p>
-        <div onClick={() => handleSaved(imdbId, title, poster, year)}>
-          {isBookmarked ? (
-            <IoBookmark color="white" />
-          ) : (
-            <IoBookmarkOutline color="white" />
-          )}
+    return (
+      <Link>
+        <img src={poster} alt={title} loading="lazy" />
+        <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
+        <div className="watchlist-content">
+          <p>{year}</p>
+          <div onClick={() => handleSaved(imdbId, title, poster, year)}>
+            {isBookmarked ? (
+              <IoBookmark color="white" />
+            ) : (
+              <IoBookmarkOutline color="white" />
+            )}
+          </div>
         </div>
-      </div>
-    </Link>
-  );
-};
+      </Link>
+    );
+  }
+);
 
 export default Movies;

@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import Icon from "../Assets/Images/Logo.png";
 
-const SidebarCommon = () => {
+const SidebarCommon = ({ watchListCount }) => {
   const [isOpen] = useState(false);
   return (
     <Fragment>
@@ -21,7 +21,10 @@ const SidebarCommon = () => {
           <Menu>
             {/* <SubMenu label="Charts"> */}
             <MenuItem> Home </MenuItem>
-            <MenuItem> My Lists </MenuItem>
+            <MenuItem>
+              {" "}
+              My Lists <div>{watchListCount}</div>
+            </MenuItem>
             {/* </SubMenu> */}
             {/* <MenuItem> Documentation </MenuItem>
                     <MenuItem> Calendar </MenuItem> */}

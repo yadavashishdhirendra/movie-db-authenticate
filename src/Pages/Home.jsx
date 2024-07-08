@@ -23,6 +23,8 @@ const Home = () => {
   const [stopLoader, setStopLoader] = useState(true);
   const [scrollLoading, setScrollLoading] = useState(false);
 
+  const [watchListCount, setWatchListCount] = useState(null);
+
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
     navigate("/login");
@@ -56,12 +58,13 @@ const Home = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  console.log("WatchListCount: ", watchListCount);
   return (
     <Fragment>
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            <SideBar />
+            <SideBar watchListCount={watchListCount} />
           </div>
           <div>
             <div className="header-info">
@@ -100,6 +103,7 @@ const Home = () => {
                         year={i.Year}
                         imdbId={i.imdbID}
                         user={user}
+                        setWatchListCount={setWatchListCount}
                       />
                     ))
                   : null}

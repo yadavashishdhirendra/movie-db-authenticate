@@ -232,5 +232,15 @@
   > li {
     border-bottom: 1px solid #eeeeee11;
     padding: 10px 0px 10px 0px;
+    &:nth-child(2) {
+      > a > span {
+        @include flex($justify: flex-start, $gap: 20px);
+        > div {
+          @include flex();
+          background-color: #e76f51;
+          @include circle(20px, 20px);
+        }
+      }
+    }
   }
 }
