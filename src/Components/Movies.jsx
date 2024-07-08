@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoBookmarkOutline, IoBookmark } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
+import { toast } from "react-toastify";
 
 const Movies = ({ poster, title, year, imdbId, user }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -27,6 +28,7 @@ const Movies = ({ poster, title, year, imdbId, user }) => {
         (bookmark) => bookmark.imdbId !== imdbId
       );
       setIsBookmarked(false);
+      toast.success("Removed From WatchList");
     } else {
       updatedUser.bookmarks.push({
         imdbId: imdbId,
@@ -35,6 +37,7 @@ const Movies = ({ poster, title, year, imdbId, user }) => {
         year: yr,
       });
       setIsBookmarked(true);
+      toast.success("Added In WatchList");
     }
     secureLocalStorage.setItem("user_watch_list", JSON.stringify(updatedUser));
   };
