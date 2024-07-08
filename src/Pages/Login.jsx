@@ -24,6 +24,10 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if (!email) {
+      toast.error("Email Id is required.");
+      return;
+    }
     const user = users.find((user) => user.email === email);
     if (user) {
       secureLocalStorage.setItem("user_watch_list", JSON.stringify(user));

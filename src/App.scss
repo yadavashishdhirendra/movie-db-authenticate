@@ -1,23 +1,21 @@
-@import 'mixin';
-@import './Styles/Login.scss';
-@import './Styles/Home.scss';
+@import "mixin";
+@import "./Styles/Login.scss";
+@import "./Styles/Home.scss";
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  letter-spacing: 0.1px;
   scrollbar-width: thin;
 }
 
 body,
 html {
   overflow-x: hidden;
-  background-color: #16181E;
+  background-color: #16181e;
 }
 
-
-.loading-container{
+.loading-container {
   @include flex();
 }
 

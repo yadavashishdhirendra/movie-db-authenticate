@@ -16,6 +16,10 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
+    if (!name) {
+      toast.error("Name is required.");
+      return;
+    }
     if (!email) {
       toast.error("Email Id is required.");
       return;
@@ -52,6 +56,7 @@ const Signup = () => {
             type="text"
             name="name"
             id="name"
+            className="last-child"
             value={name}
             placeholder="Enter Your Name"
             onChange={(e) => setName(e.target.value)}

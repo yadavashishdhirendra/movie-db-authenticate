@@ -1,22 +1,45 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { default as SideBar } from "../Components/Sidebar.common";
+import { default as Moviez } from "../Components/Movies";
 import secureLocalStorage from "react-secure-storage";
 import { IoBookmark } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { GetAllMovieActions } from "../Actions/Tmoviez.actions";
+import Loading from "../Components/Loading";
 
 const Home = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
   console.log(user);
+
+  //   Movie List State
+  const { movies, loading } = useSelector((state) => state.movie);
+
+  const [Movies, setMovies] = useState([]);
 
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
     navigate("/login");
     toast.success("Logout Successfully");
   };
+
+  useEffect(() => {
+    dispatch(GetAllMovieActions("movie", 1));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (movies?.Response === "True") {
+      setMovies(movies?.Search);
+    }
+  }, [movies?.Search, movies?.Response]);
+
+  console.log("MOVIES: ", Movies);
+
   return (
     <Fragment>
       <div className="container">
@@ -45,6 +68,25 @@ const Home = () => {
                 the poster to see more details marked the video as watched.
               </p>
             </div>
+
+            {/* Movie Data */}
+            {loading ? (
+              <Loading mt={true} color={"white"} size={48} />
+            ) : (
+              <div className="movie-list-grid-row">
+                {Movies && Movies?.length > 0
+                  ? Movies.map((i, index) => (
+                      <Moviez
+                        key={index}
+                        poster={i.Poster}
+                        title={i.Title}
+                        year={i.Year}
+                      />
+                    ))
+                  : null}
+              </div>
+            )}
+            {/* Movie Data */}
           </div>
         </div>
       </div>
