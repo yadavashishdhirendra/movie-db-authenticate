@@ -45,8 +45,7 @@ const Home = () => {
         page === 1 ? movies?.Search : [...prevMovies, ...movies?.Search]
       );
       setScrollLoading(false);
-    }
-    if (movies?.Response === "False") {
+    } else if (movies?.Response === "False") {
       toast.error(movies.Error);
       setIsError(true);
       setScrollLoading(false);
@@ -71,6 +70,7 @@ const Home = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setIsError(false);
     setStopLoader(true);
     setMovies([]);
     setPage(1);
@@ -78,6 +78,7 @@ const Home = () => {
   };
 
   const handleKeyword = (val) => {
+    setIsError(false);
     // setIsTyping(true);
     setPage(1);
     setKeyword(val);
