@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllMovieActions } from "../Actions/Tmoviez.actions";
 import Loading from "../Components/Loading";
+import MetaTitle from "../Components/Meta.name";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -104,6 +105,8 @@ const Home = () => {
 
   return (
     <Fragment>
+      <MetaTitle title={`Tiny Moviez`} />
+
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>

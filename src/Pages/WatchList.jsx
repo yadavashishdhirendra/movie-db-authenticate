@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { CiLogout } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import MetaTitle from "../Components/Meta.name";
 
 const WatchList = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const WatchList = () => {
   console.log("USER: ", user);
   return (
     <Fragment>
+      <MetaTitle title={`Tiny Moviez - WatchList`} />
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>

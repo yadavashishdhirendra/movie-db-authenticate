@@ -45,7 +45,7 @@ const Movies = React.memo(({ poster, title, year, imdbId, user }) => {
 
   return (
     <Link>
-      <Link to={`movie-details/${imdbId}`}>
+      <Link to={`/movie-details/${imdbId}`}>
         <img
           onError={(e) => (e.target.src = DefaultImg)}
           src={poster}

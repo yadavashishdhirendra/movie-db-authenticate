@@ -10,6 +10,7 @@ import Loading from "../Components/Loading";
 import secureLocalStorage from "react-secure-storage";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import MetaTitle from "../Components/Meta.name";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
@@ -37,6 +38,12 @@ const MovieDetails = () => {
 
   return (
     <Fragment>
+      <MetaTitle
+        title={`${
+          loading ? "Loading..." : `Tiny Moviez - ${Single_Movie?.Title}`
+        }`}
+      />
+
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
