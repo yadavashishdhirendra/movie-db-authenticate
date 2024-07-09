@@ -62,6 +62,12 @@ const WatchList = () => {
                   ))
                 : null}
             </div>
+
+            {user.bookmarks?.length <= 0 && (
+              <h1 className="no-data">
+                There is no 😔 data in <br /> your watchlist.
+              </h1>
+            )}
             {/* WatchList Data */}
           </div>
         </div>
