@@ -5,6 +5,7 @@ import { GetMovieByIdActions } from "../Actions/Tmoviez.actions";
 import SideBar from "../Components/Sidebar.common";
 import { CiLogout } from "react-icons/ci";
 import { Button } from "@mui/material";
+import DefaultImg from "../Assets/Images/no.png";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Components/Loading";
 import secureLocalStorage from "react-secure-storage";
@@ -85,7 +86,11 @@ const MovieDetails = () => {
             ) : (
               <div className="movie-details-container">
                 <div>
-                  <img src={Single_Movie?.Poster} alt="" />
+                  <img
+                    onError={(e) => (e.target.src = DefaultImg)}
+                    src={Single_Movie?.Poster}
+                    alt={Single_Movie?.Title}
+                  />
                 </div>
                 <div>
                   <h1>{Single_Movie?.Title}</h1>
