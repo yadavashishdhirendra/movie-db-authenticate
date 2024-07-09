@@ -11,6 +11,8 @@ import secureLocalStorage from "react-secure-storage";
 import { toast } from "react-toastify";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import MetaTitle from "../Components/Meta.name";
+import { IoIosTimer } from "react-icons/io";
+import { FaRegStar } from "react-icons/fa";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
@@ -35,6 +37,9 @@ const MovieDetails = () => {
   }, [dispatch, id]);
 
   console.log("Movie Details: ", Single_Movie);
+
+  const genres = Single_Movie?.Genre?.split(", ");
+  console.log(genres);
 
   return (
     <Fragment>
@@ -73,6 +78,26 @@ const MovieDetails = () => {
                 <div>
                   <h1>{Single_Movie?.Title}</h1>
                   <p>{Single_Movie?.Plot}</p>
+                  <div className="run-time">
+                    <p>
+                      <IoIosTimer /> {Single_Movie?.Runtime}
+                    </p>
+                    <p>
+                      <FaRegStar /> {Single_Movie?.imdbRating}
+                    </p>
+                  </div>
+                  <div className="released-date">
+                    <div>
+                      <p>Genre</p>
+                      {Single_Movie?.Genre?.split(", ").map((genre, index) => (
+                        <Button key={index}>{genre}</Button>
+                      ))}
+                    </div>
+                    <div>
+                      {/* <p>Release Date</p>
+                      <p>{Single_Movie?.Released}</p> */}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

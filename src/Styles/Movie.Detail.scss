@@ -26,7 +26,49 @@
         color: white;
         font-family: "Montserrat";
         margin-top: 20px;
-        font-size: 14px;
+        font-size: 18px;
+      }
+      > .run-time {
+        @include flex($justify: flex-start, $gap: 30px);
+        border-bottom: 1px solid #eeeeee08;
+        padding-bottom: 20px;
+
+        margin-top: 20px;
+        > p {
+          font-family: "Montserrat";
+          font-size: 14px;
+          color: white;
+          @include flex($justify: flex-start);
+        }
+      }
+      > .released-date {
+        padding-top: 20px;
+        @include flex($justify: flex-start);
+        > div {
+          &:nth-child(1) {
+            > p {
+              color: white;
+              &:nth-child(1) {
+                font-family: "Krona One";
+                font-size: 14px;
+              }
+            }
+            > button {
+              height: 30px !important;
+              font-family: "Montserrat";
+              font-size: 12px;
+              color: white !important;
+              margin-right: 20px;
+              background-color: #eeeeee08;
+              margin-top: 8px;
+              border-radius: 2px !important;
+              -webkit-border-radius: 2px !important;
+              -moz-border-radius: 2px !important;
+              -ms-border-radius: 2px !important;
+              -o-border-radius: 2px !important;
+            }
+          }
+        }
       }
     }
   }
