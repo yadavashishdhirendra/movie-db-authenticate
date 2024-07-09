@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { GetMovieByIdActions } from "../Actions/Tmoviez.actions";
@@ -13,6 +13,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import MetaTitle from "../Components/Meta.name";
 import { IoIosTimer } from "react-icons/io";
 import { FaRegStar } from "react-icons/fa";
+import { RiMenu3Line } from "react-icons/ri";
 
 const MovieDetails = () => {
   const navigate = useNavigate();
@@ -41,6 +42,12 @@ const MovieDetails = () => {
   const genres = Single_Movie?.Genre?.split(", ");
   console.log(genres);
 
+  const [isActive, setisActive] = useState(false);
+
+  const handleMenu = () => {
+    setisActive(!isActive);
+  };
+
   return (
     <Fragment>
       <MetaTitle
@@ -52,14 +59,19 @@ const MovieDetails = () => {
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            <SideBar />
+            <SideBar isActive={isActive} />
           </div>
           <div>
             <div className="header-info">
               <h3>Welcome, {user.name}</h3>
-              <Button onClick={handleLogout}>
-                <CiLogout size={28} />
-              </Button>
+              <div>
+                <Button onClick={handleLogout}>
+                  <CiLogout size={28} />
+                </Button>
+                <Button onClick={handleMenu}>
+                  <RiMenu3Line size={28} />
+                </Button>
+              </div>
             </div>
 
             <div className="back-arrow" onClick={() => navigate(-1)}>
