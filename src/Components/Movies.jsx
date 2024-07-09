@@ -45,13 +45,17 @@ const Movies = React.memo(({ poster, title, year, imdbId, user }) => {
 
   return (
     <Link>
-      <img
-        onError={(e) => (e.target.src = DefaultImg)}
-        src={poster}
-        alt={title}
-        loading="lazy"
-      />
-      <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
+      <Link to={`movie-details/${imdbId}`}>
+        <img
+          onError={(e) => (e.target.src = DefaultImg)}
+          src={poster}
+          alt={title}
+          loading="lazy"
+        />
+      </Link>
+      <Link to={`movie-details/${imdbId}`}>
+        <h4>{title?.length > 22 ? title.slice(0, 22) + "..." : title}</h4>
+      </Link>
       <div className="watchlist-content">
         <p>{year}</p>
         <div onClick={() => handleSaved(imdbId, title, poster, year)}>

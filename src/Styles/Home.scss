@@ -114,46 +114,49 @@
           @include grid($coloumns: repeat(3, minmax(0, 1fr)));
         }
         @include for_breakpoint(mediumTablet) {
-          @include grid($coloumns: repeat(2, minmax(0, 1fr)), $gap: 40px);
+          @include grid($coloumns: repeat(2, minmax(0, 1fr)), $gap: 20px);
         }
         > a {
           text-decoration: none;
           @include for_breakpoint(mediumTablet) {
             margin-bottom: 20px;
           }
-          > img {
-            width: 100%;
-            cursor: pointer;
-            height: 250px;
-            transition: transform 0.3s ease-in-out;
-            object-fit: cover;
-            object-position: top;
-            overflow-clip-margin: unset;
-            overflow: hidden;
-            border-radius: 10px;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            -ms-border-radius: 10px;
-            -o-border-radius: 10px;
-            &:hover {
-              transform: scale(1.09);
-              -webkit-transform: scale(1.09);
-              -moz-transform: scale(1.09);
-              -ms-transform: scale(1.09);
-              -o-transform: scale(1.09);
+          > a {
+            text-decoration: none;
+            > img {
+              width: 100%;
+              cursor: pointer;
+              height: 250px;
+              transition: transform 0.3s ease-in-out;
+              object-fit: cover;
+              object-position: top;
+              overflow-clip-margin: unset;
+              overflow: hidden;
+              border-radius: 10px;
+              -webkit-border-radius: 10px;
+              -moz-border-radius: 10px;
+              -ms-border-radius: 10px;
+              -o-border-radius: 10px;
+              &:hover {
+                transform: scale(1.09);
+                -webkit-transform: scale(1.09);
+                -moz-transform: scale(1.09);
+                -ms-transform: scale(1.09);
+                -o-transform: scale(1.09);
+              }
+              @include for_breakpoint(mobile) {
+                height: 160px;
+              }
             }
-            @include for_breakpoint(mobile) {
-              height: 160px;
-            }
-          }
-          > h4 {
-            color: white;
-            font-family: "Krona One";
-            font-size: 14px;
-            font-weight: 300;
-            margin-top: 15px;
-            @include for_breakpoint(mobile) {
-              font-size: 12px;
+            > h4 {
+              color: white;
+              font-family: "Krona One";
+              font-size: 14px;
+              font-weight: 300;
+              margin-top: 15px;
+              @include for_breakpoint(mobile) {
+                font-size: 12px;
+              }
             }
           }
           > .watchlist-content {

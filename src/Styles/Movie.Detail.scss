@@ -1,0 +1,44 @@
+.movie-details-container {
+  margin-top: 30px;
+  @include grid($coloumns: 2fr 4fr, $gap: 20px);
+  @include for_breakpoint(mediumTablet) {
+    @include grid($coloumns: 1fr);
+  }
+  > div {
+    &:nth-child(1) {
+      > img {
+        width: 100%;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+      }
+    }
+    &:nth-child(2) {
+      > h1 {
+        font-family: "Krona One";
+        color: white;
+        font-weight: 800;
+        font-size: 42px;
+      }
+      > p {
+        color: white;
+        font-family: "Montserrat";
+        margin-top: 20px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.back-arrow {
+  cursor: pointer;
+  margin-top: 20px;
+  color: white;
+  > p {
+    font-family: "Montserrat";
+    font-size: 14px;
+  }
+  @include flex($justify: flex-start, $gap: 10px);
+}

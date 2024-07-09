@@ -102,8 +102,6 @@ const Home = () => {
     };
   }, [keyword]);
 
-  console.log("DEBOUNCED VALUE: ", debouncedValue);
-
   return (
     <Fragment>
       <div className="container">

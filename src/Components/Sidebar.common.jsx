@@ -35,15 +35,11 @@ const SidebarCommon = () => {
         >
           <Menu>
             {Sidebar_Menu &&
-              Sidebar_Menu?.map((i, index) => (
-                <Fragment key={index}>
-                  <MenuItem component={<Link to={`${i.url}`} />}>
-                    {i.name}{" "}
-                    <div>
-                      {index === 1 ? user?.bookmarks?.length || 0 : null}
-                    </div>
-                  </MenuItem>
-                </Fragment>
+              Sidebar_Menu.map((i, index) => (
+                <MenuItem component={<Link to={`${i.url}`} />} key={index}>
+                  {i.name}
+                  {index === 1 && <div>{user?.bookmarks?.length || 0}</div>}
+                </MenuItem>
               ))}
           </Menu>
         </Sidebar>
