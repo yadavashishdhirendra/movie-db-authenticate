@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import Icon from "../Assets/Images/Logo.png";
 import secureLocalStorage from "react-secure-storage";
@@ -15,18 +15,17 @@ const Sidebar_Menu = [
   },
 ];
 
-const SidebarCommon = () => {
+const SidebarCommon = ({ isActive }) => {
   let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
 
-  const [isOpen] = useState(false);
   return (
     <Fragment>
-      <div className="sidebar-container">
+      <div className={`sidebar-container ${isActive && "sidebar-open"}`}>
         <div className="logo-container">
           <img src={Icon} alt={Icon} />
         </div>
         <Sidebar
-          collapsed={isOpen}
+          // collapsed={false}
           rootStyles={{
             color: "white",
             fontFamily: "Krona One",

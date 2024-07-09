@@ -23,7 +23,10 @@
       .sidebar-container {
         position: fixed;
         top: 0;
+        left: 0;
         height: 100vh;
+        z-index: 9999;
+        transition: 0.5s ease-in-out;
         > .logo-container {
           @include flex();
           margin: 20px 0px 20px 0px;
@@ -39,7 +42,8 @@
         }
         background-color: #131842 !important;
         @include for_breakpoint(tablet) {
-          display: none;
+          // display: none;
+          left: -250px;
         }
       }
     }
@@ -102,8 +106,18 @@
           color: white;
           font-size: 14px;
         }
-        > button {
-          color: white;
+        > div {
+          @include flex($align: center);
+          button {
+            color: white;
+            &:nth-child(2) {
+              height: 41px !important;
+              display: none;
+              @include for_breakpoint(tablet) {
+                display: block;
+              }
+            }
+          }
         }
       }
 
@@ -243,4 +257,9 @@
       }
     }
   }
+}
+
+.sidebar-open {
+  left: 0 !important;
+  // width: 175px !important;
 }

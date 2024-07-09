@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { GetAllMovieActions } from "../Actions/Tmoviez.actions";
 import Loading from "../Components/Loading";
+import { RiMenu3Line } from "react-icons/ri";
 import MetaTitle from "../Components/Meta.name";
 
 const Home = () => {
@@ -103,6 +104,12 @@ const Home = () => {
     };
   }, [keyword]);
 
+  const [isActive, setisActive] = useState(false);
+
+  const handleMenu = () => {
+    setisActive(!isActive);
+  };
+
   return (
     <Fragment>
       <MetaTitle title={`Tiny Moviez`} />
@@ -110,14 +117,19 @@ const Home = () => {
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            <SideBar />
+            <SideBar isActive={isActive} />
           </div>
           <div>
             <div className="header-info">
               <h3>Welcome, {user.name}</h3>
-              <Button onClick={handleLogout}>
-                <CiLogout size={28} />
-              </Button>
+              <div>
+                <Button onClick={handleLogout}>
+                  <CiLogout size={28} />
+                </Button>
+                <Button onClick={handleMenu}>
+                  <RiMenu3Line size={28} />
+                </Button>
+              </div>
             </div>
             <div className="watch-list-container">
               <h1>
