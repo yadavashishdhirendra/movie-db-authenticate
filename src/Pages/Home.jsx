@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { default as SideBar } from "../Components/Sidebar.common";
-import { default as Moviez } from "../Components/Movies";
+import SideBar from "../Components/Sidebar.common";
+import Moviez from "../Components/Movies";
 import secureLocalStorage from "react-secure-storage";
 import { IoBookmark } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
@@ -14,22 +14,18 @@ import Loading from "../Components/Loading";
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
+  const user = JSON.parse(secureLocalStorage.getItem("user_watch_list"));
 
-  //   State to get all movies
   const { movies, loading } = useSelector((state) => state.movie);
 
   const [Movies, setMovies] = useState([]);
-
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("dragon");
-
   const [stopLoader, setStopLoader] = useState(true);
   const [scrollLoading, setScrollLoading] = useState(false);
-
   const [isError, setIsError] = useState(false);
-
   const [isTyping, setIsTyping] = useState(false);
+  const [debouncedValue, setDebouncedValue] = useState(keyword);
 
   const handleLogout = () => {
     secureLocalStorage.removeItem("user_watch_list");
@@ -38,25 +34,30 @@ const Home = () => {
   };
 
   useEffect(() => {
-    if (!isError) {
-      if (!isTyping) {
-        dispatch(GetAllMovieActions(keyword, page));
-      }
+    if (!isError && !isTyping) {
+      dispatch(GetAllMovieActions(debouncedValue, page));
     }
-  }, [dispatch, page, keyword, isError, isTyping]);
+  }, [dispatch, page, debouncedValue, isError, isTyping]);
 
   useEffect(() => {
     if (movies?.Response === "True") {
-      setMovies((prevMovies) =>
-        page === 1 ? movies?.Search : [...prevMovies, ...movies?.Search]
-      );
+      setMovies((prevMovies) => {
+        const allMovies =
+          page === 1 ? movies?.Search : [...prevMovies, ...movies?.Search];
+
+        const uniqueMovies = Array.from(
+          new Set(allMovies.map((movie) => movie.imdbID))
+        ).map((id) => allMovies.find((movie) => movie.imdbID === id));
+
+        return uniqueMovies;
+      });
       setScrollLoading(false);
     } else if (movies?.Response === "False") {
       toast.error(movies.Error);
       setIsError(true);
       setScrollLoading(false);
     }
-  }, [movies?.Search, movies?.Response, page, movies?.Error]);
+  }, [movies, page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,7 +82,7 @@ const Home = () => {
     setStopLoader(true);
     setMovies([]);
     setPage(1);
-    await dispatch(GetAllMovieActions(keyword, 1));
+    await dispatch(GetAllMovieActions(debouncedValue, 1));
   };
 
   const handleKeyword = (val) => {
@@ -90,6 +91,18 @@ const Home = () => {
     setPage(1);
     setKeyword(val);
   };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(keyword);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [keyword]);
+
+  console.log("DEBOUNCED VALUE: ", debouncedValue);
 
   return (
     <Fragment>
@@ -101,7 +114,7 @@ const Home = () => {
           <div>
             <div className="header-info">
               <h3>Welcome, {user.name}</h3>
-              <Button onClick={() => handleLogout()}>
+              <Button onClick={handleLogout}>
                 <CiLogout size={28} />
               </Button>
             </div>
@@ -115,7 +128,7 @@ const Home = () => {
               </p>
               <p>
                 Just click the <IoBookmark color="#E76F51" /> to add a movie,
-                the poster to see more details marked the video as watched.
+                the poster to see more details, and mark the video as watched.
               </p>
             </div>
             <form onSubmit={handleSearch} className="input-container">
