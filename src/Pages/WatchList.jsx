@@ -32,7 +32,7 @@ const WatchList = () => {
       <div className="container">
         <div className="wrapper-container-grid-row">
           <div>
-            <SideBar />
+            <SideBar isActive={isActive} />
           </div>
           <div>
             <div className="header-info">
